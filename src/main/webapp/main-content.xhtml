@@ -54,23 +54,42 @@ Email: info@dpbennett.com.jm
             </p:panel>
 
             <h:panelGroup style="float: right;" >
-                <p:commandButton actionListener="#{systemManager.editUserProfile}"                                            
-                                 icon="pi pi-user"
-                                 title="Profile"
-                                 style="margin-right: 10px;"
-                                 styleClass="rounded-button"
-                                 process="@this">  
-                    <p:ajax event="dialogReturn"
-                            oncomplete="window.location.reload();" />
 
-                </p:commandButton> 
+                <h:panelGroup style="margin-right: 10px;">
+                    <p:commandButton actionListener="#{systemManager.editUserProfile}"                                            
+                                     icon="pi pi-user"
+                                     title="Profile"
+                                     style="margin-right: 10px;"
+                                     styleClass="rounded-button ui-button-outlined"
+                                     process="@this">  
+                        <p:ajax event="dialogReturn"
+                                oncomplete="window.location.reload();" />
 
-                <p:commandButton actionListener="#{jobManager.logout}"                                             
-                                 icon="pi pi-sign-out"
-                                 styleClass="rounded-button"
-                                 title="Logout"
-                                 oncomplete="location.reload();"
-                                 process="@this"/>  
+                    </p:commandButton> 
+
+                    <p:commandButton actionListener="#{jobManager.logout}"                                             
+                                     icon="pi pi-sign-out"
+                                     styleClass="rounded-button ui-button-outlined"
+                                     title="Logout"
+                                     oncomplete="location.reload();"
+                                     process="@this"/>  
+                </h:panelGroup>
+
+                <p:menuButton icon="pi pi-bars" 
+                              buttonStyleClass="rounded-button ui-button-outlined" >
+                    <p:menuitem value="Profile" 
+                                action="#{systemManager.editUserProfile}" 
+                                icon="pi pi-user" />
+                    <p:menuitem 
+                        value="Website" 
+                        url="#{jobManager.organizationWebsite}" 
+                        icon="pi pi-external-link"/>
+                    <p:divider/>
+                    <p:menuitem value="Logout" 
+                                action="#{jobManager.logout}" 
+                                oncomplete="location.reload();"
+                                icon="pi pi-sign-out"/>                   
+                </p:menuButton>
 
             </h:panelGroup>
         </header>
