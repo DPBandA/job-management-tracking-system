@@ -35,7 +35,7 @@ Email: info@dpbennett.com.jm
 
         <header class="navbar2 flex-md-nowrap p-0 shadow" >
             <p:panel>
-                <h:outputLink value="https://adassa.com.jm/">
+                <h:outputLink value="#{systemManager.organizationWebsite}">
                     <h:graphicImage
                         library="images"
                         value="#{jobManager.logoURL}"
@@ -43,10 +43,13 @@ Email: info@dpbennett.com.jm
                         height="32"
                         styleClass="me-2" />                      
                 </h:outputLink>
+
                 <span class="d-none d-md-inline">
-                    <p:outputLabel 
-                        styleClass="text-xl font-semibold" 
-                        value="#{jobManager.applicationHeader}"/>
+                    <h:outputLink value="#{systemManager.organizationWebsite}">
+                        <p:outputLabel 
+                            styleClass="text-xl font-semibold" 
+                            value="#{jobManager.applicationHeader}"/>
+                    </h:outputLink>
                 </span>
             </p:panel>
 

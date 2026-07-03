@@ -33,42 +33,51 @@ Email: info@dpbennett.com.jm
               modal="true"
               visible="#{!jobManager.userLoggedIn}"              
               widgetVar="loginDialog"
-              width="auto"
+              width="400"
               closable="false"
-              resizable="false">
+              resizable="true">
 
-        <h:form id="loginForm">
-
+        <h:form id="loginForm">           
             <p:outputLabel id="loginMessage" 
-                           value="#{jobManager.logonMessage}" style="font-weight: bold" />
-            <h:panelGrid columns="2" cellspacing="10">
-                <p:outputLabel value="Username" style="font-weight: bold" />
-                <p:inputText value="#{jobManager.username}"
-                             id="username" 
-                             required="true"
-                             validatorMessage="Please enter a valid username" />
+                           styleClass="font-bold mb-2"
+                           value="#{jobManager.logonMessage}" />
 
-                <p:outputLabel value="Password" style="font-weight: bold" />
-                <p:password id="password"
-                            value="#{jobManager.password}"
-                            maxlength="255" 
-                            redisplay="true"
-                            toggleMask="true"
-                            required="true"
-                            label="password"
-                            feedback="false" />               
+            <div class="formgrid grid">
+                <div class="field col-12 md:col-4">
+                    <p:outputLabel value="Username" 
+                                   for="@next"
+                                   styleClass="font-bold mr-2" />
+                    <p:inputText value="#{jobManager.username}"
+                                 id="username" 
+                                 required="true"
+                                 validatorMessage="Please enter a valid username" />
+                </div>
 
-                <f:facet name="footer">
-                    <p:commandButton value="Login"
-                                     icon="pi pi-sign-in"    
-                                     update="loginForm"                                                                                                            
-                                     global="true"
-                                     oncomplete="window.location.reload();"
-                                     process="@form"
-                                     actionListener="#{jobManager.login}" />
-                </f:facet>
-            </h:panelGrid>
+                <div class="field col-12 md:col-4">
+                    <p:outputLabel value="Password" 
+                                   for="@next"
+                                   styleClass="font-bold mr-2" />
+                    <p:password id="password"
+                                value="#{jobManager.password}"
+                                maxlength="255" 
+                                redisplay="true"
+                                toggleMask="true"
+                                required="true"
+                                label="password"
+                                feedback="false" />    
+                </div>
+            </div>
+
+            <p:commandButton value="Login"
+                             icon="pi pi-sign-in"    
+                             update="loginForm"                                                                                                            
+                             global="true"
+                             oncomplete="window.location.reload();"
+                             process="@form"
+                             actionListener="#{jobManager.login}" />
+
         </h:form>
+
     </p:dialog>
 
 </html>
