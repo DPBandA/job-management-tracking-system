@@ -46,7 +46,7 @@ Email: info@dpbennett.com.jm
             </div>
         </footer>
 
-        <p:poll interval="#{jobManager.pollInterval}"
+        <p:poll interval="#{systemManager.pollInterval}"
                 global="false"
                 onerror="PF('connectionErrorDialog').show();"
                 listener="#{jobManager.handleKeepAlive}" />
