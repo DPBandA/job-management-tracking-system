@@ -27,20 +27,20 @@ Email: info@dpbennett.com.jm
     xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
     xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
-    <h:form id="mainTabViewForm" rendered="#{jobManager.userLoggedIn}"> 
+    <h:form id="accordionTabViewForm" rendered="#{jobManager.userLoggedIn}"> 
 
         <p:panel>
 
             <div class="grid">
                 <div class="col-12">
 
-                    <p:tabView id="mainTabView"  
-                               rendered="#{systemManager.mainTabView.render}"
-                               value="#{systemManager.mainTabView.tabs}" 
-                               activeIndex="#{systemManager.mainTabView.tabIndex}"
-                               var="t" 
-                               dynamic="false"                                                   
-                               widgetVar="mainTabViewVar">
+                    <p:accordionPanel id="mainTabView"  
+                                      value="#{systemManager.mainTabView.tabs}" 
+                                      activeIndex="#{systemManager.mainTabView.tabIndex}"
+                                      var="t"                                                
+                                      widgetVar="mainTabViewVar"
+                                      rendered="true"
+                                      multiple="false">
 
                         <p:ajax event="tabChange" 
                                 process="@form"      
@@ -142,7 +142,7 @@ Email: info@dpbennett.com.jm
 
                         </p:tab>
 
-                    </p:tabView> 
+                    </p:accordionPanel> 
 
                 </div> 
 

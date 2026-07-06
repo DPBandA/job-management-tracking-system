@@ -91,9 +91,15 @@ Email: info@dpbennett.com.jm
                                 icon="pi pi-sign-out"/>                   
                 </p:menuButton>
 
-            </h:panelGroup>
+            </h:panelGroup>          
+
         </header>
     </h:form>
+
+    <span class="d-none d-md-inline">
+        <ui:include src="menubar.xhtml"/>
+    </span>
+
     <div class="container-fluid">
         <div class="row">
             <div
@@ -126,7 +132,13 @@ Email: info@dpbennett.com.jm
                 </div>
             </div>
             <main class="col-md-8 ms-sm-auto col-lg-9 px-md-4">
-                <ui:include src="mainTabView.xhtml"/>
+                <span class="d-none d-md-inline">
+                    <ui:include src="mainTabView.xhtml"/>
+                </span>
+                
+                <span class="d-inline d-md-none">
+                    <ui:include src="accordionTabView.xhtml"/>
+                </span>
             </main>
         </div>
         <footer>           

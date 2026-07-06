@@ -145,27 +145,25 @@ Email: info@dpbennett.com.jm
     <span class="d-inline  d-md-none">
         <p:toolbarGroup align="left" >            
             <p:commandButton
-                actionListener="#{jobManager.createNewJob}"
-                global="true"                                  
-                title="Create job"
+                actionListener="#{jobManager.createNewJobdInline}"
+                global="true" 
                 icon="pi pi-plus"
                 process="@this">  
 
                 <p:ajax event="dialogReturn" 
-                        update=":mainTabViewForm:mainTabView"
+                        update=":accordionTabViewForm:mainTabView"
                         listener="#{jobManager.jobDialogReturn}" />
 
             </p:commandButton>    
             <p:spacer height="0" width="5"/>
             <p:commandButton
                 actionListener="#{jobManager.viewJobSearchDialog}"
-                global="true"                                  
-                title="Search for jobs"
+                global="true" 
                 icon="pi pi-search"
                 process="@this">  
 
                 <p:ajax event="dialogReturn" 
-                        update=":mainTabViewForm:mainTabView" />
+                        update=":accordionTabViewForm:mainTabView" />
 
             </p:commandButton>
             <p:spacer height="0" width="10"/>
@@ -229,7 +227,7 @@ Email: info@dpbennett.com.jm
                                itemValue="#{jobView}"/>
 
                 <p:ajax listener="#{jobManager.updateJobView}"
-                        update=":mainTabViewForm:mainTabView"
+                        update=":accordionTabViewForm:mainTabView"
                         global="true"
                         process="@this"/>
                
