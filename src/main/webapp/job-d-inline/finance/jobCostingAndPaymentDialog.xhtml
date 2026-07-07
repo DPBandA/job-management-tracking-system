@@ -17,8 +17,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 Email: info@dpbennett.com.jm
 -->
-<ui:composition
-    template="/jmts-ui/templates/bootstrap-layout.xhtml"
+<ui:composition 
+    template="/jmts-ui/templates/jmts-dialog.xhtml"
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:p="http://primefaces.org/ui"
     xmlns:h="http://xmlns.jcp.org/jsf/html"
@@ -27,29 +27,35 @@ Email: info@dpbennett.com.jm
     xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
     xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
-    <f:metadata>
-        <f:viewAction action="#{jobManager.reInitUI}" onPostback="false"/>
-    </f:metadata>
-
-    <ui:define name="head">        
-        <title>#{jobManager.applicationHeader}</title>
-        <link rel="shortcut icon" type="image/x-icon" href="#{jobManager.appShortcutIconURL}" />  
-        <script>
-            function toggleSidebar() {
-                var sidebar = document.getElementById("sidebarMenu");
-                var offcanvas = bootstrap.Offcanvas.getOrCreateInstance(sidebar);
-                offcanvas.toggle();
-            }
-        </script>
-    </ui:define>    
-
-    <ui:define name="dialogs">
-        <ui:include src="common/commonDialogs.xhtml"/>
-        <ui:include src="loginDialog.xhtml"/>
+    <ui:define name="head">
+        <title>Costing &amp; Payment</title>
     </ui:define>
 
-    <ui:define name="content">        
-        <ui:include src="content.xhtml"/>
+    <ui:define name="content">
+
+        <ui:include src="../../common/commonDialogs.xhtml"/>      
+
+        <h:form id="jobDialogForm" > 
+            
+            <p:growl id="growl2" life="5000" showDetail="true" />  
+
+            <ui:include src="jobCostingAndPaymentTopToolbar.xhtml"/>
+
+            <p:tabView id="jobFormTabView"
+                       style="margin-top: 1px;margin-bottom: 1px;"    
+                       dynamic="false"
+                       widgetVar="jobFormTabVar" >
+
+                <p:tab title="General" >
+                    <ui:include src="jobCostingAndPaymentTab.xhtml"/>
+                </p:tab>    
+
+            </p:tabView>
+
+            <ui:include src="jobCostingAndPaymentBottomToolbar.xhtml"/>
+            
+        </h:form>   
+
     </ui:define>
 
 </ui:composition>
