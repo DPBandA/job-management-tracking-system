@@ -31,9 +31,12 @@ Email: info@dpbennett.com.jm
                  var="job"
                  editable="false" 
                  editMode="cell"
+                 paginator="true"
+                 rows="15" 
                  reflow="true"
                  rowStyleClass="#{job.rowStyle}"
-                 resizableColumns="false"  
+                 resizableColumns="false"                 
+                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                  value="#{jobManager.jobsModel}">
 
         <p:ajax event="cellEdit"   
@@ -46,14 +49,14 @@ Email: info@dpbennett.com.jm
             <h:outputText value="#{jobManager.searchResultsTableHeader}" />
         </f:facet>
 
-        <p:column>
+        <p:column sortBy="#{job.jobNumber}">
             <f:facet name="header">
                 <h:outputText value="Job number"/>
             </f:facet>
             <h:outputText value="#{job.jobNumber}" />
         </p:column>
 
-        <p:column>
+        <p:column sortBy="#{job.client.name}">
             <f:facet name="header">
                 <h:outputText value="Client"/>
             </f:facet>
@@ -61,6 +64,7 @@ Email: info@dpbennett.com.jm
         </p:column>          
         
         <p:column headerText="Instructions" 
+                  sortBy="#{job.instructions}"
                   id="job_instructions">   
             <p:cellEditor>
                 <f:facet name="output">
@@ -81,7 +85,7 @@ Email: info@dpbennett.com.jm
             </p:cellEditor>  
         </p:column>
 
-        <p:column>
+        <p:column sortBy="#{job.jobCostingAndPayment.estimatedCost}" >
             <f:facet name="header">
                 <h:outputText value="Est. ($)"/>
             </f:facet>
@@ -91,7 +95,7 @@ Email: info@dpbennett.com.jm
             </h:outputText>
         </p:column>
 
-        <p:column>
+        <p:column sortBy="#{job.jobCostingAndPayment.minDeposit}" >
             <f:facet name="header">
                 <h:outputText value="Min. Deposit ($)"/>
             </f:facet>
@@ -101,7 +105,7 @@ Email: info@dpbennett.com.jm
             </h:outputText>
         </p:column>
 
-        <p:column>
+        <p:column sortBy="#{job.jobCostingAndPayment.amountDue}" >
             <f:facet name="header">
                 <h:outputText value="Amt Due($)"/>
             </f:facet>
@@ -122,7 +126,7 @@ Email: info@dpbennett.com.jm
                                              target="#{jobFinanceManager.editJobCostingAndPayment}" />
 
                 <p:ajax event="dialogReturn"                     
-                        update=":dashboardForm:dashboardAccordion"
+                        update=":mainTabViewForm:mainTabView"
                         listener="#{jobFinanceManager.jobCostingAndPaymentDialogReturn}" />
 
             </p:commandButton>     

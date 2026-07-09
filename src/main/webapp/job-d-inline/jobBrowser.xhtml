@@ -29,16 +29,8 @@ Email: info@dpbennett.com.jm
 
     <ui:include src="jobViewToolbar.xhtml"/>
 
-    <h:panelGroup rendered="#{jobManager.user.jobTableViewPreference == 'Jobs'}">    
-        <ui:include src="jobsTable.xhtml"/>    
-    </h:panelGroup>
-
-    <h:panelGroup rendered="#{jobManager.user.jobTableViewPreference == 'Job Costings'}">   
-        <ui:include src="/job-d-inline/finance/jobCostingsTable.xhtml"/>
-    </h:panelGroup>
-
-    <h:panelGroup rendered="#{jobManager.user.jobTableViewPreference == 'Cashier View'}"> 
-        <ui:include src="/job-d-inline/finance/cashierViewTable.xhtml"/>
+    <h:panelGroup>    
+        <ui:include src="/job-d-inline/jobsTable.xhtml"/>    
     </h:panelGroup>
 
 </html>

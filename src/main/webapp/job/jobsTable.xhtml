@@ -31,9 +31,12 @@ Email: info@dpbennett.com.jm
                  var="job"
                  editable="false" 
                  editMode="cell"
+                 paginator="true"
+                 rows="15"  
                  reflow="true"
                  resizableColumns="false"
-                 rowStyleClass="#{job.rowStyle}" 
+                 rowStyleClass="#{job.rowStyle}"
+                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                  value="#{jobManager.jobsModel}">
 
         <p:ajax event="cellEdit" 
@@ -47,21 +50,21 @@ Email: info@dpbennett.com.jm
             <h:outputText value="#{jobManager.searchResultsTableHeader}" />
         </f:facet>
 
-        <p:column>
+        <p:column sortBy="#{job.jobNumber}">
             <f:facet name="header">
                 <h:outputText value="Job number"/>
             </f:facet>
             <h:outputText value="#{job.jobNumber}" />
         </p:column>
 
-        <p:column>
+        <p:column sortBy="#{job.client.name}">
             <f:facet name="header">
                 <h:outputText value="Client"/>
             </f:facet>
             <h:outputText value="#{job.client.name}" />
         </p:column>  
         
-        <p:column>
+        <p:column sortBy="#{job.client.name}">
             <f:facet name="header">
                 <h:outputText value="Assignee"/>
             </f:facet>
@@ -69,6 +72,7 @@ Email: info@dpbennett.com.jm
         </p:column>  
 
         <p:column headerText="Instructions" 
+                  sortBy="#{job.instructions}"
                   id="job_instructions" >   
             <p:cellEditor>
                 <f:facet name="output">
@@ -90,7 +94,8 @@ Email: info@dpbennett.com.jm
         </p:column>
 
         <p:column headerText="Submitted" 
-                  id="dateSubmitted" >   
+                  id="dateSubmitted"
+                  sortBy="#{job.jobStatusAndTracking.dateSubmitted}">   
             <p:cellEditor>
                 <f:facet name="output">
                     <h:outputText value="#{job.jobStatusAndTracking.dateSubmitted}">
@@ -110,7 +115,8 @@ Email: info@dpbennett.com.jm
         </p:column>
 
         <p:column headerText="EDOC" 
-                  id="job_edoc" >   
+                  id="job_edoc" 
+                  sortBy="#{job.jobStatusAndTracking.expectedDateOfCompletion}">   
             <p:cellEditor>
                 <f:facet name="output">
                     <h:outputText value="#{job.jobStatusAndTracking.expectedDateOfCompletion}">
@@ -128,7 +134,7 @@ Email: info@dpbennett.com.jm
             </p:cellEditor>  
         </p:column>
 
-        <p:column headerText="Progress">       
+        <p:column headerText="Progress" sortBy="#{job.jobStatusAndTracking.workProgress}" >       
             <f:facet name="header">
                 <h:outputText value="Progress"/>
             </f:facet>
