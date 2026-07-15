@@ -145,6 +145,10 @@ Email: info@dpbennett.com.jm
     <span class="d-inline  d-md-none">
         <p:toolbarGroup align="left" >            
             <p:commandButton
+                actionListener="#{jobManager.createNewJob}"
+                global="true"      
+                value="New"
+                title="Create job"
                 actionListener="#{jobManager.createNewJobdInline}"
                 global="true" 
                 icon="pi pi-plus"
@@ -154,6 +158,8 @@ Email: info@dpbennett.com.jm
                         update=":accordionTabViewForm:mainTabView"
                         listener="#{jobManager.jobDialogReturn}" />
 
+            </p:commandButton>  
+            <p:spacer height="0" width="30"/>
             </p:commandButton>    
             <p:spacer height="0" width="5"/>
             <p:commandButton
