@@ -26,19 +26,19 @@ Email: info@dpbennett.com.jm
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets"   
     xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
     xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"> 
-
+    
     <ui:include src="jobViewToolbar.xhtml"/>
-
+        
     <h:panelGroup rendered="#{jobManager.user.jobTableViewPreference == 'Jobs'}">    
         <ui:include src="jobsTable.xhtml"/>    
     </h:panelGroup>
 
     <h:panelGroup rendered="#{jobManager.user.jobTableViewPreference == 'Job Costings'}">   
-        <ui:include src="/job/finance/jobCostingsTable.xhtml"/>
+        <ui:include src="finance/jobCostingsTable.xhtml"/>
     </h:panelGroup>
 
     <h:panelGroup rendered="#{jobManager.user.jobTableViewPreference == 'Cashier View'}"> 
-        <ui:include src="/job/finance/cashierViewTable.xhtml"/>
+        <ui:include src="finance/cashierViewTable.xhtml"/>
     </h:panelGroup>
 
 </html>
