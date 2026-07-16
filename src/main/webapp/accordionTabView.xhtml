@@ -43,12 +43,12 @@ Email: info@dpbennett.com.jm
                                 listener="#{jobManager.onMainViewTabChange}" />  
 
 
-                        <p:tab title="Jobs">
+                        <p:tab title="Jobs" rendered="#{jobManager.user.hasModule('jobManager')}">
+                            <ui:include src="job-d-inline/jobBrowser.xhtml" /> 
+                        </p:tab>
 
-                            <h:panelGroup>                                
-                                <ui:include src="job-d-inline/jobBrowser.xhtml" /> 
-                            </h:panelGroup>
-
+                        <p:tab title="Clients" rendered="#{jobManager.user.hasModule('clientManager')}" >
+                            <ui:include src="client/clientsTab.xhtml" />  
                         </p:tab>
 
                     </p:accordionPanel> 
