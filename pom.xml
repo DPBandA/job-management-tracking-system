@@ -4,7 +4,7 @@
 
     <groupId>jm.com.dpbennett</groupId>
     <artifactId>job-management-tracking-system</artifactId>
-    <version>6.0.0</version>
+    <version>5.10.0</version>
     <packaging>war</packaging>
     
     <description>The Job Management &amp; Tracking System (JMTS) enterprise software.</description>
@@ -70,6 +70,13 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>legal-office</artifactId>
             <version>6.0.0</version>
+            <type>war</type>
+        </dependency>
+        
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>labelprint</artifactId>
+            <version>4.1.0</version>
             <type>war</type>
         </dependency>
         
@@ -153,7 +160,12 @@
                         <overlay>
                             <groupId>${project.groupId}</groupId>
                             <artifactId>legal-office</artifactId>
-                        </overlay>                
+                        </overlay> 
+                        
+                        <overlay>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>labelprint</artifactId>
+                        </overlay>                               
                                                
                     </overlays>                     
                 </configuration>
