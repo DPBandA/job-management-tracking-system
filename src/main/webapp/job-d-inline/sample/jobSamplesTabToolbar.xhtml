@@ -27,20 +27,22 @@ Email: info@dpbennett.com.jm
     xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
     xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"> 
 
-    <ui:include src="jobViewToolbar.xhtml"/>
+    <p:toolbar>
+        <p:toolbarGroup align="left">
+            <p:commandButton value="New"
+                             title="Add new sample(s)"
+                             actionListener="#{jobSampleManager.createNewJobSample}"     
+                             disabled="#{jobManager.disableJobDialogField('samples')}"
+                             icon="pi pi-plus"
+                             process="@this" >
 
-    <h:panelGroup rendered="#{jobManager.user.jobTableViewPreference == 'Jobs'}">    
-        <ui:include src="jobsTable.xhtml"/>    
-    </h:panelGroup>
+                <p:ajax event="dialogReturn" 
+                        listener="#{jobSampleManager.jobSampleDialogReturn}"                    
+                        update=":jobDialogForm:jobDetailToolbar1,:jobDialogForm:growl2,:jobDialogForm:jobFormTabView:jobSamplesTable"
+                        process="@this"/>
 
-    <h:panelGroup rendered="#{jobManager.user.jobTableViewPreference == 'Job Costings'}">   
-        <ui:include src="/job/finance/jobCostingsTable.xhtml"/>
-    </h:panelGroup>
-
-    <h:panelGroup rendered="#{jobManager.user.jobTableViewPreference == 'Cashier View'}"> 
-        <ui:include src="/job/finance/cashierViewTable.xhtml"/>
-    </h:panelGroup>
+            </p:commandButton>                
+        </p:toolbarGroup>
+    </p:toolbar>
 
 </html>
-
-

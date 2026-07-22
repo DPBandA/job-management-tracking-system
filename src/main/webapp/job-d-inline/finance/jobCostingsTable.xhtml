@@ -27,17 +27,14 @@ Email: info@dpbennett.com.jm
     xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
     xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"> 
 
-    <p:dataTable id="jobCostingsTable"
+    <p:dataTable id="jobCostingsTable2"
                  var="job"
-                 paginator="true"
-                 rows="15"  
                  reflow="true"
                  editable="true" 
                  editMode="cell"
                  rowStyleClass="#{job.rowStyle}"
                  selection="#{jobManager.selectedJobs}" 
-                 resizableColumns="false"                 
-                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                 resizableColumns="false" 
                  value="#{jobManager.jobsModel}">
 
         <p:ajax event="page" global="false" />
@@ -52,23 +49,21 @@ Email: info@dpbennett.com.jm
 
         <p:column selectionMode="multiple" style="text-align:center" />  
 
-        <p:column sortBy="#{job.jobNumber}">
+        <p:column>
             <f:facet name="header">
                 <h:outputText value="Job number"/>
             </f:facet>
             <h:outputText value="#{job.jobNumber}" />
         </p:column>
 
-        <p:column sortBy="#{job.client.name}">
+        <p:column>
             <f:facet name="header">
                 <h:outputText value="Client"/>
             </f:facet>
             <h:outputText value="#{job.client.name}" />
         </p:column>    
 
-        <p:column 
-            sortBy="#{job.client.accountingId}"
-            rendered="#{jobFinanceManager.user.can('EditInvoicingAndPayment')}">
+        <p:column rendered="#{jobFinanceManager.user.can('EditInvoicingAndPayment')}">
             <f:facet name="header">
                 <h:outputText value="Client Id"/>
             </f:facet>
@@ -106,14 +101,14 @@ Email: info@dpbennett.com.jm
             <h:outputText value="#{jobFinanceManager.getAccountingCodes(job)}" />
         </p:column>
 
-        <p:column sortBy="#{job.classification.name}">
+        <p:column>
             <f:facet name="header">
                 <h:outputText value="Class'tion"/>
             </f:facet>
             <h:outputText value="#{job.classification.name}" />
         </p:column>    
 
-        <p:column sortBy="#{job.jobCostingAndPayment.finalCost}">
+        <p:column>
             <f:facet name="header">
                 <h:outputText value="Cost ($)"/>
             </f:facet>
@@ -123,7 +118,7 @@ Email: info@dpbennett.com.jm
             </h:outputText>
         </p:column>
 
-        <p:column sortBy="#{job.jobCostingAndPayment.costingCompleted? 'Yes': 'No'}">
+        <p:column>
             <f:facet name="header">
                 <h:outputText value="Prep'd?"/>
             </f:facet>
@@ -131,7 +126,7 @@ Email: info@dpbennett.com.jm
                           style="font-weight: bold;color: #{job.jobCostingAndPayment.costingCompleted? 'green': 'red'}"/>            
         </p:column>  
 
-        <p:column sortBy="#{job.jobCostingAndPayment.costingApproved? 'Yes': 'No'}">
+        <p:column>
             <f:facet name="header">
                 <h:outputText value="Appr'd?"/>
             </f:facet>
@@ -139,7 +134,7 @@ Email: info@dpbennett.com.jm
                           style="font-weight: bold;color: #{job.jobCostingAndPayment.costingApproved? 'green': 'red'}"/>            
         </p:column>  
 
-        <p:column sortBy="#{job.jobCostingAndPayment.invoiced? 'Yes': 'No'}">
+        <p:column>
             <f:facet name="header">
                 <h:outputText value="Inv'd?"/>
             </f:facet>
@@ -156,7 +151,7 @@ Email: info@dpbennett.com.jm
 
                 <p:ajax event="dialogReturn" 
                         listener="#{jobFinanceManager.jobCostingDialogReturn}"
-                        update="jobCostingsTable,:headerForm:growl3"/>
+                        update="jobCostingsTable2"/>
 
                 <f:setPropertyActionListener value="#{job}"
                                              target="#{jobFinanceManager.editJobCosting}" />

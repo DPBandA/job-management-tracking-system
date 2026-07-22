@@ -41,49 +41,10 @@ Email: info@dpbennett.com.jm
         <ui:include src="loginDialog.xhtml"/>
     </ui:define>
 
-    <ui:define name="header">
-        <ui:include src="header.xhtml"/>
+    <ui:define name="content">    
+        <p:scrollTop/>
+        <ui:include src="content.xhtml"/>
     </ui:define>
 
-    <ui:define name="upper-divider">
-        <p:divider rendered="#{jobManager.userLoggedIn}" />
-    </ui:define>
-
-    <ui:define name="main-content">
-
-        <p:scrollPanel mode="native">
-
-            <main class="flex flex-column md:flex-row flex-auto">
-
-                <p:outputPanel styleClass="w-full md:w-3 flex-shrink-0" 
-                               rendered="#{!jobManager.user.renderMobileUI}">                    
-                    <ui:include src="dashboard.xhtml"/>                    
-                </p:outputPanel>
-
-                <p:outputPanel
-                    styleClass="w-full #{jobManager.getUser().isRenderMobileUI() ? 'md:w-12' : 'md:w-9'}">
-
-                    <ui:include src="mainTabView.xhtml"/>
-
-                </p:outputPanel>
-
-            </main>
-
-            <p:scrollTop target="parent"
-                         threshold="100"
-                         styleClass="custom-scrolltop"
-                         icon="pi pi-arrow-up"/>
-
-        </p:scrollPanel>
-
-    </ui:define>
-
-    <ui:define name="lower-divider">
-        <p:divider rendered="#{jobManager.userLoggedIn}" />
-    </ui:define>
-
-    <ui:define name="footer">
-        <ui:include src="footer.xhtml"/>
-    </ui:define>
 
 </ui:composition>

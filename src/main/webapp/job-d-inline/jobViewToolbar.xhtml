@@ -27,19 +27,37 @@ Email: info@dpbennett.com.jm
     xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
     xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"> 
 
-    <ui:include src="jobViewToolbar.xhtml"/>
+    <p:toolbar style="margin-bottom: 1px;border: 0px;" >
+        
+            <p:toolbarGroup align="left" >            
+                <p:commandButton
+                    actionListener="#{jobManager.createNewJobdInline}"
+                    global="true" 
+                    value="New"
+                    icon="pi pi-plus"
+                    process="@this">  
 
-    <h:panelGroup rendered="#{jobManager.user.jobTableViewPreference == 'Jobs'}">    
-        <ui:include src="jobsTable.xhtml"/>    
-    </h:panelGroup>
+                    <p:ajax event="dialogReturn" 
+                            update=":accordionTabViewForm:mainTabView"
+                            listener="#{jobManager.jobDialogReturn}" />
 
-    <h:panelGroup rendered="#{jobManager.user.jobTableViewPreference == 'Job Costings'}">   
-        <ui:include src="/job/finance/jobCostingsTable.xhtml"/>
-    </h:panelGroup>
+                </p:commandButton>    
+                <p:spacer height="0" width="5"/>
+                <p:commandButton
+                    actionListener="#{jobManager.viewJobSearchDialog}"
+                    global="true" 
+                    value="Search"
+                    icon="pi pi-search"
+                    process="@this">  
 
-    <h:panelGroup rendered="#{jobManager.user.jobTableViewPreference == 'Cashier View'}"> 
-        <ui:include src="/job/finance/cashierViewTable.xhtml"/>
-    </h:panelGroup>
+                    <p:ajax event="dialogReturn" 
+                            update=":accordionTabViewForm:mainTabView" />
+
+                </p:commandButton>
+            
+            </p:toolbarGroup>   
+            
+    </p:toolbar>   
 
 </html>
 

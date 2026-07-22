@@ -38,14 +38,8 @@ Email: info@dpbennett.com.jm
                                rendered="#{systemManager.mainTabView.render}"
                                value="#{systemManager.mainTabView.tabs}" 
                                activeIndex="#{systemManager.mainTabView.tabIndex}"
-                               var="t" 
-                               dynamic="false"                                                   
+                               var="t"                                                  
                                widgetVar="mainTabViewVar">
-
-                        <p:ajax event="tabClose" 
-                                immediate="true"
-                                process="@this"
-                                listener="#{systemManager.onMainViewTabClose}" />  
 
                         <p:ajax event="tabChange" 
                                 process="@form"      
@@ -53,12 +47,18 @@ Email: info@dpbennett.com.jm
                                 listener="#{jobManager.onMainViewTabChange}" />  
 
 
-                        <p:tab title="#{t.name}" closable="true"  >
+                        <p:tab title="#{t.name}" closable="true">
 
                             <p:defaultCommand target="#{systemManager.defaultCommandTarget}" />
 
-                            <h:panelGroup rendered="#{t.id == 'Jobs'}">                                
-                                <ui:include src="job/jobBrowser.xhtml" /> 
+                            <h:panelGroup rendered="#{t.id == 'Jobs'}">  
+                                <span class="d-none d-md-inline">
+                                    <ui:include src="job/jobBrowser.xhtml" /> 
+                                </span>
+
+                                <span class="d-inline  d-md-none">
+                                    <ui:include src="job-d-inline/jobBrowser.xhtml" /> 
+                                </span>
                             </h:panelGroup>
 
                             <h:panelGroup rendered="#{t.id == 'Clients'}" >
