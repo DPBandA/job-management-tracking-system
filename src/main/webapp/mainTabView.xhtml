@@ -65,6 +65,10 @@ Email: info@dpbennett.com.jm
                                 <ui:include src="client/clientsTab.xhtml" />                                                                
                             </h:panelGroup>
 
+                            <h:panelGroup rendered="#{t.id == 'Labels'}" >
+                                <ui:include src="label/labelsTab.xhtml" /> 
+                            </h:panelGroup> 
+
                             <h:panelGroup rendered="#{t.id == 'Human Resource'}" >
                                 <ui:include src="hr/hrmTab.xhtml" /> 
                             </h:panelGroup>
