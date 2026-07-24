@@ -144,6 +144,10 @@ Email: info@dpbennett.com.jm
                             <h:panelGroup rendered="#{t.id == 'Legal Documents'}">                                
                                 <ui:include src="legal/documentBrowser.xhtml" />   
                             </h:panelGroup> 
+                            
+                            <h:panelGroup rendered="#{t.id == 'Labels'}" >
+                                <ui:include src="label/labelsTab.xhtml" /> 
+                            </h:panelGroup> 
 
                         </p:tab>
 

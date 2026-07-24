@@ -266,6 +266,33 @@ Email: info@dpbennett.com.jm
                         update=""
                         process="@this" /> 
         </p:submenu>     
+        
+        <p:submenu label="LabelPrint"                            
+                   rendered="#{systemManager.user.hasModule('energyLabelManager')}"
+                   icon="pi pi-images" >
+
+            <p:menuitem value="New"
+                        title="Create new label"
+                        icon="pi pi-plus"
+                        actionListener="#{energyLabelManager.createNewEnergyLabel}" 
+                        rendered="#{energyLabelManager.user.can('CreateEnergyLabel')}"
+                        process="@this" >
+
+                <p:ajax event="dialogReturn" 
+                        update=":mainTabViewForm:mainTabView"
+                        listener="#{energyLabelManager.energyLabelDialogReturn}" />
+
+            </p:menuitem>  
+
+            <p:divider />
+
+            <p:menuitem value="Labels"
+                        title="Open the Energy Label Browser" 
+                        icon="pi pi-images"
+                        actionListener="#{energyLabelManager.openEnergyLabelBrowser}" 
+                        process="@this" />   
+            
+        </p:submenu>
 
         <p:submenu label="Finance"    
                    rendered="#{jobManager.user.hasModule('financeManager') || jobManager.user.can('AddProformaInvoice')}"

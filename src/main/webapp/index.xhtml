@@ -33,15 +33,8 @@ Email: info@dpbennett.com.jm
 
     <ui:define name="head">        
         <title>#{jobManager.applicationHeader}</title>
-        <link rel="shortcut icon" type="image/x-icon" href="#{jobManager.appShortcutIconURL}" />  
-        <script>
-            function toggleSidebar() {
-                var sidebar = document.getElementById("sidebarMenu");
-                var offcanvas = bootstrap.Offcanvas.getOrCreateInstance(sidebar);
-                offcanvas.toggle();
-            }
-        </script>
-    </ui:define>    
+        <link rel="shortcut icon" type="image/x-icon" href="#{jobManager.appShortcutIconURL}" />
+    </ui:define>
 
     <ui:define name="dialogs">
         <ui:include src="common/commonDialogs.xhtml"/>
