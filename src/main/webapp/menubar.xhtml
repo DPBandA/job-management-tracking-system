@@ -188,7 +188,93 @@ Email: info@dpbennett.com.jm
                         process="@this"/>
 
         </p:submenu>    
+
+        <p:submenu label="Food Safety"                            
+                   rendered="#{foodSafetyManager.user.hasModule('foodSafetyManager')}"
+                   icon="pi pi-shield" >
+
+            <p:submenu label="New"  
+                       icon="pi pi-plus" >
+
+                <p:menuitem
+                    value="Factory"
+                    icon="pi pi-plus" 
+                    actionListener="#{foodFactoryManager.createNewFoodFactory}"                                            
+                    process="@this"
+                    title="Add a new food factory" >
+
+                    <p:ajax event="dialogReturn" 
+                            listener="#{foodFactoryManager.doFoodFactorySearch}"
+                            update=":mainTabViewForm:mainTabView:foodFactoriesTable,:headerForm:growl3"/>
+
+                </p:menuitem>
+
+            </p:submenu>
+
+            <p:submenu label="Tools"  
+                       icon="pi pi-wrench">
+
+                <p:menuitem value="Factories"  
+                            actionListener="#{foodFactoryManager.openFactoryBrowser}"
+                            icon="pi pi-copy"
+                            process="@this"/>
+
+            </p:submenu>
+
+        </p:submenu>
         
+        <p:submenu label="Legal Metrology"                            
+                   rendered="#{legalMetrologyManager.user.hasModule('legalMetrologyManager')}"
+                   icon="pi pi-check-circle" >
+
+            <p:submenu label="New"  
+                       icon="pi pi-plus" >
+
+                <p:menuitem
+                    value="Petrol Station"
+                    icon="pi pi-plus" 
+                    actionListener="#{legalMetrologyManager.createNewPetrolStation}"                                            
+                    process="@this"
+                    title="Add a new petrol station" >
+
+                    <p:ajax event="dialogReturn" 
+                            listener="#{legalMetrologyManager.doPetrolStationSearch}"
+                            update=":mainTabViewForm:mainTabView:petrolStationsTable,:headerForm:growl3"/>
+
+                </p:menuitem>
+
+                <p:menuitem
+                    value="Scale"
+                    icon="pi pi-plus" 
+                    actionListener="#{legalMetrologyManager.createNewScale}"                                            
+                    process="@this"
+                    title="Add a new scale" >
+
+                    <p:ajax event="dialogReturn" 
+                            listener="#{legalMetrologyManager.doScaleSearch}"
+                            update=":mainTabViewForm:mainTabView:scalesTable,:headerForm:growl3"/>
+
+                </p:menuitem>
+
+            </p:submenu>
+
+            <p:submenu label="Tools"  
+                       icon="pi pi-wrench">
+
+                <p:menuitem value="Petrol Stations"  
+                            actionListener="#{legalMetrologyManager.openPetrolStationBrowser}"
+                            icon="pi pi-copy"
+                            process="@this"/>
+
+                <p:menuitem value="Scales"  
+                            actionListener="#{legalMetrologyManager.openScaleBrowser}"
+                            icon="pi pi-copy"
+                            process="@this"/>
+
+            </p:submenu>
+
+        </p:submenu>
+
         <p:submenu label="LabelPrint"                            
                    rendered="#{systemManager.user.hasModule('energyLabelManager')}"
                    icon="pi pi-images" >
@@ -213,7 +299,7 @@ Email: info@dpbennett.com.jm
                         icon="pi pi-images"
                         actionListener="#{energyLabelManager.openEnergyLabelBrowser}" 
                         process="@this" />   
-            
+
         </p:submenu>
 
         <p:submenu label="Legal" 
