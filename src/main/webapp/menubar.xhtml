@@ -187,6 +187,15 @@ Email: info@dpbennett.com.jm
                         icon="pi pi-copy"
                         process="@this"/>
 
+            <p:divider />
+
+            <p:menuitem 
+                actionListener="#{complianceManager.openComplianceSettingsTab}" 
+                title="Show compliance settings" 
+                rendered="#{complianceManager.user.can('AccessComplianceOptions')}"
+                value="Compliance Setting" 
+                icon="pi pi-check-square" />
+
         </p:submenu>    
 
         <p:submenu label="Food Safety"                            
@@ -222,7 +231,7 @@ Email: info@dpbennett.com.jm
             </p:submenu>
 
         </p:submenu>
-        
+
         <p:submenu label="Legal Metrology"                            
                    rendered="#{legalMetrologyManager.user.hasModule('legalMetrologyManager')}"
                    icon="pi pi-check-circle" >
@@ -299,6 +308,22 @@ Email: info@dpbennett.com.jm
                         icon="pi pi-images"
                         actionListener="#{energyLabelManager.openEnergyLabelBrowser}" 
                         process="@this" />   
+
+            <p:divider />
+
+            <p:menuitem 
+                actionListener="#{energyLabelManager.openEnergyEfficiencySettingsTab}" 
+                title="Show energy efficiency settings" 
+                rendered="#{energyLabelManager.user.can('AccessEnergyEfficiencyOptions')}"
+                value="Energy Efficiency Settings" 
+                icon="pi pi-sun" />
+
+            <p:menuitem 
+                actionListener="#{energyLabelManager.openLabelPrintSettingsTab}" 
+                title="Show LabelPrint settings" 
+                rendered="#{energyLabelManager.user.can('AccessLabelPrintOptions')}"
+                value="LabelPrint Settings" 
+                icon="pi pi-file" />
 
         </p:submenu>
 
@@ -598,6 +623,7 @@ Email: info@dpbennett.com.jm
                 title="System Information"                 
                 value="System Information" 
                 icon="pi pi-info-circle" />
+
 
         </p:submenu>
 

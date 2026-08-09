@@ -75,7 +75,19 @@ Email: info@dpbennett.com.jm
 
                             <h:panelGroup rendered="#{t.id == 'System Administration'}" >
                                 <ui:include src="admin/generalAdminTab.xhtml" /> 
-                            </h:panelGroup>                                               
+                            </h:panelGroup>   
+
+                            <h:panelGroup rendered="#{t.id == 'Compliance Settings'}" >
+                                <ui:include src="label/complianceOptionsTab.xhtml" /> 
+                            </h:panelGroup>
+
+                            <h:panelGroup rendered="#{t.id == 'Energy Efficiency Settings'}" >
+                                <ui:include src="label/energyEfficiencyOptionsTab.xhtml" /> 
+                            </h:panelGroup>
+
+                            <h:panelGroup rendered="#{t.id == 'LabelPrint Settings'}" >
+                                <ui:include src="label/labelPrintOptionsTab.xhtml" /> 
+                            </h:panelGroup> 
 
                             <h:panelGroup rendered="#{t.id == 'Proforma Invoices'}">                                
                                 <ui:include src="job/finance/proformaInvoicesTab.xhtml" /> 
