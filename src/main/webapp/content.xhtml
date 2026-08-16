@@ -57,6 +57,19 @@ Email: info@dpbennett.com.jm
 
                 <span class="d-none d-md-inline">
                     <h:panelGroup style="margin-right: 10px;">
+                        
+                        <p:commandButton icon="pi pi-question"
+                                         title="Profile"
+                                         onclick=""
+                                         style="margin-right: 10px;"
+                                         styleClass="rounded-button ui-button-outlined"
+                                         process="@this">  
+
+                            <p:ajax event="dialogReturn"
+                                    oncomplete="window.location.reload();" />
+
+                        </p:commandButton> 
+                        
                         <p:commandButton actionListener="#{systemManager.editUserProfile}"                                            
                                          icon="pi pi-user"
                                          title="Profile"
