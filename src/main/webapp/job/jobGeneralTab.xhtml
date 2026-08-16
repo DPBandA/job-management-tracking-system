@@ -183,7 +183,7 @@ Email: info@dpbennett.com.jm
                             disabled="#{jobManager.disableJobDialogField('client')}"
                             completeMethod="#{clientManager.completeActiveClient}" >
 
-                <f:converter converterId="activeClientConverter"/>
+                <f:converter converterId="clientConverter"/>
 
                 <f:attribute name="em" value="#{clientManager.entityManager1}"/>
 
@@ -403,7 +403,7 @@ Email: info@dpbennett.com.jm
                         cache="true"
                         completeMethod="#{jobManager.completeActiveEmployee}" >
 
-            <f:converter converterId="activeEmployeeConverter"/>
+            <f:converter converterId="employeeConverter"/>
 
             <f:attribute name="em" value="#{humanResourceManager.entityManager1}"/>
 
@@ -432,7 +432,7 @@ Email: info@dpbennett.com.jm
                         cache="true"
                         completeMethod="#{jobManager.completeActiveEmployee}" >
 
-            <f:converter converterId="activeEmployeeConverter"/>
+            <f:converter converterId="employeeConverter"/>
 
             <f:attribute name="em" value="#{humanResourceManager.entityManager1}"/>
 
