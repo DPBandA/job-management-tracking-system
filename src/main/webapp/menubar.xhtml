@@ -77,7 +77,7 @@ Email: info@dpbennett.com.jm
         </p:submenu>
 
         <p:submenu label="Compliance"                            
-                   rendered="#{jobManager.user.hasModule('complianceManager')}"
+                   rendered="#{complianceManager.user.hasModule('complianceManager')}"
                    icon="pi pi-check-square" >
 
             <p:submenu label="New"  
@@ -163,48 +163,45 @@ Email: info@dpbennett.com.jm
                             update=":mainTabViewForm:mainTabView,:headerForm:growl3" />
 
                 </p:menuitem>
+
             </p:submenu>
 
             <p:divider />
 
-            <p:menuitem value="Surveys"
-                        actionListener="#{complianceManager.openSurveysBrowser}"   
-                        icon="pi pi-copy"
-                        process="@this"/>                   
+            <p:submenu label="Tools"  
+                       icon="pi pi-wrench">
 
-            <p:menuitem value="Standards" 
-                        actionListener="#{complianceManager.openStandardsBrowser}"
-                        icon="pi pi-copy"
-                        process="@this"/>
+                <p:menuitem value="Surveys"
+                            actionListener="#{complianceManager.openSurveysBrowser}"   
+                            icon="pi pi-copy"
+                            process="@this"/>                   
 
-            <p:menuitem value="Complaints"  
-                        actionListener="#{complianceManager.openComplaintsBrowser}"
-                        icon="pi pi-copy"
-                        process="@this"/>
+                <p:menuitem value="Standards" 
+                            actionListener="#{complianceManager.openStandardsBrowser}"
+                            icon="pi pi-copy"
+                            process="@this"/>
 
-            <p:menuitem value="Market Products"  
-                        actionListener="#{complianceManager.openMarketProductBrowser}"
-                        icon="pi pi-copy"
-                        process="@this"/>
+                <p:menuitem value="Complaints"  
+                            actionListener="#{complianceManager.openComplaintsBrowser}"
+                            icon="pi pi-copy"
+                            process="@this"/>
 
-            <p:menuitem value="Manufacturers"  
-                        actionListener="#{complianceManager.openManufacturerBrowser}"
-                        icon="pi pi-copy"
-                        process="@this"/>
+                <p:menuitem value="Market Products"  
+                            actionListener="#{complianceManager.openMarketProductBrowser}"
+                            icon="pi pi-copy"
+                            process="@this"/>
 
-            <p:menuitem value="Factory Inspections"  
-                        actionListener="#{complianceManager.openFactoryInspectionBrowser}"
-                        icon="pi pi-copy"
-                        process="@this"/>
+                <p:menuitem value="Manufacturers"  
+                            actionListener="#{complianceManager.openManufacturerBrowser}"
+                            icon="pi pi-copy"
+                            process="@this"/>
 
-            <p:divider />
+                <p:menuitem value="Factory Inspections"  
+                            actionListener="#{complianceManager.openFactoryInspectionBrowser}"
+                            icon="pi pi-copy"
+                            process="@this"/>
 
-            <p:menuitem 
-                actionListener="#{complianceManager.openComplianceSettingsTab}" 
-                title="Show compliance settings" 
-                rendered="#{complianceManager.user.can('AccessComplianceOptions')}"
-                value="Compliance Setting" 
-                icon="pi pi-check-square" />
+            </p:submenu>
 
         </p:submenu>    
 
@@ -334,6 +331,14 @@ Email: info@dpbennett.com.jm
                 rendered="#{energyLabelManager.user.can('AccessLabelPrintOptions')}"
                 value="LabelPrint Settings" 
                 icon="pi pi-file" />
+            
+            <p:divider />
+            
+            <p:menuitem 
+                actionListener="#{energyLabelManager.openComplianceSettingsTab}" 
+                title="Show compliance settings" 
+                value="Compliance" 
+                icon="pi pi-check-square" />
 
         </p:submenu>
 
