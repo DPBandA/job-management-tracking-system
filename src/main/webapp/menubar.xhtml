@@ -299,7 +299,6 @@ Email: info@dpbennett.com.jm
                         title="Create new label"
                         icon="pi pi-plus"
                         actionListener="#{energyLabelManager.createNewEnergyLabel}" 
-                        rendered="#{energyLabelManager.user.can('CreateEnergyLabel')}"
                         process="@this" >
 
                 <p:ajax event="dialogReturn" 
@@ -307,8 +306,6 @@ Email: info@dpbennett.com.jm
                         listener="#{energyLabelManager.energyLabelDialogReturn}" />
 
             </p:menuitem>  
-
-            <p:divider />
 
             <p:menuitem value="Labels"
                         title="Open the Energy Label Browser" 
@@ -321,24 +318,20 @@ Email: info@dpbennett.com.jm
             <p:menuitem 
                 actionListener="#{energyLabelManager.openEnergyEfficiencySettingsTab}" 
                 title="Show energy efficiency settings" 
-                rendered="#{energyLabelManager.user.can('AccessEnergyEfficiencyOptions')}"
                 value="Energy Efficiency Settings" 
-                icon="pi pi-sun" />
+                icon="pi pi-cog" />
 
             <p:menuitem 
                 actionListener="#{energyLabelManager.openLabelPrintSettingsTab}" 
                 title="Show LabelPrint settings" 
-                rendered="#{energyLabelManager.user.can('AccessLabelPrintOptions')}"
                 value="LabelPrint Settings" 
-                icon="pi pi-file" />
-            
-            <p:divider />
-            
+                icon="pi pi-cog" />            
+          
             <p:menuitem 
                 actionListener="#{energyLabelManager.openComplianceSettingsTab}" 
                 title="Show compliance settings" 
-                value="Compliance" 
-                icon="pi pi-check-square" />
+                value="Compliance Settings" 
+                icon="pi pi-cog" />
 
         </p:submenu>
 
