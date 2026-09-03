@@ -17,7 +17,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 Email: info@dpbennett.com.jm
 -->
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:p="http://primefaces.org/ui"
@@ -28,29 +27,29 @@ Email: info@dpbennett.com.jm
     xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <h:form rendered="#{jobManager.userLoggedIn}">
-
         <footer class="footer">
             <div class="grid">
                 <div class="col-12">
                     <p:toolbar>
                         <p:toolbarGroup align="left">
-                            <p:link href="#{jobManager.organizationWebsite}"
-                                    value="© #{jobManager.copyrightOrganization}"/>
+                            <p:outputLabel value=" © #{jobManager.copyrightOrganization}"
+                                           onclick="window.open('#{jobManager.organizationWebsite}');"
+                                           class="header-text"/>
                         </p:toolbarGroup>
 
                         <p:toolbarGroup align="right">
-                            <p:link href="#{jobManager.supportURL}"
-                                    value="#{jobManager.applicationFooter}"/>
+                            <p:outputLabel value="#{jobManager.applicationFooter}"
+                                           class="header-text"/>
                         </p:toolbarGroup>
                     </p:toolbar>
                 </div>
             </div>
         </footer>
 
-        <p:poll interval="60"
+        <p:poll interval="#{systemManager.pollInterval}"
                 global="false"
                 onerror="PF('connectionErrorDialog').show();"
-                listener="#{jobManager.handleKeepAlive}"/>
+                listener="#{jobManager.handleKeepAlive}" />
 
     </h:form>
 

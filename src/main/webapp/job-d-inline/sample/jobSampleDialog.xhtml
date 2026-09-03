@@ -1,0 +1,355 @@
+<!--
+Job Management & Tracking System (JMTS) 
+Copyright (C) 2026  D P Bennett & Associates Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+Email: info@dpbennett.com.jm
+-->
+<ui:composition 
+    template="/jmts-ui/templates/jmts-dialog.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"   
+    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="head">
+        <title>Job Sample</title>
+    </ui:define>
+
+    <ui:define name="content">
+
+        <ui:include src="/common/commonDialogs.xhtml"/>
+
+        <h:form id="jobSampleDialogForm" >      
+            <p:growl id="job_sample_dialog_growl" 
+                     life="5000" 
+                     showDetail="true"/>
+
+            <p:toolbar>
+                <p:toolbarGroup align="left">
+                    <p:commandButton value="Ok"
+                                     actionListener="#{jobSampleManager.okJobSample}"                                     
+                                     update="job_sample_dialog_growl"                                     
+                                     icon="pi pi-check"
+                                     process="@form"/>
+                    <p:spacer height="0" width="5"/>
+                    <p:commandButton value="Cancel"
+                                     actionListener="#{jobSampleManager.cancelJobSampleDialogEdits}"                            
+                                     icon="pi pi-times"
+                                     process="@this"/>
+                </p:toolbarGroup>
+
+                <p:toolbarGroup align="right" >  
+                    <h:outputText value="* Field required." style="font-weight: bold;" />            
+                </p:toolbarGroup>
+
+            </p:toolbar>            
+
+            <p:accordionPanel id="jobSampleDialogTabView"
+                              activeIndex="#{jobSampleManager.jobSampleDialogTabViewActiveIndex}"
+                              style="margin-top: 1px;margin-bottom: 1px;"
+                              dynamic="false"
+                              widgetVar="jobSampleDialogTabViewVar">
+
+                <p:tab title="General" >
+                    <h:panelGrid columns="2" style="width: 100%" >
+
+                        <p:outputLabel value="Reference *" style="font-weight: bold;" />
+                        <p:inputText id="sampleReference"
+                                     value="#{jobSampleManager.selectedJobSample.reference}"
+                                     maxlength="250"
+                                     required=""
+                                     readonly="true"
+                                     styleClass="read-only-text-field" >
+                            <p:ajax event="change"
+                                    global="false"
+                                    listener="#{jobSampleManager.updateSample}"
+                                    process="@this"/>
+                        </p:inputText>
+
+                        <p:outputLabel value="Sampled by" />
+                        <p:autoComplete id="sampledBy"
+                                        escape="false"
+                                        var="sampledBy"
+                                        value="#{jobSampleManager.selectedJobSample.sampledBy}"
+                                        title="#{jobSampleManager.selectedJobSample.sampledBy}"
+                                        itemLabel="#{sampledBy.name}"
+                                        itemValue="#{sampledBy}"
+                                        forceSelection="true"
+                                        dropdown="true"
+                                        scrollHeight="200" 
+                                        cache="true"
+                                        completeMethod="#{jobManager.completeActiveEmployee}" >
+
+                            <f:converter converterId="activeEmployeeConverter"/>
+
+                            <f:attribute name="em" value="#{humanResourceManager.entityManager1}"/>
+
+                            <p:ajax event="itemSelect"                                    
+                                    listener="#{jobSampleManager.updateSample}"
+                                    global="false"
+                                    update="sampleReference"
+                                    process="@this"/>
+
+                            <p:ajax event="change"                                    
+                                    listener="#{jobSampleManager.updateSample}"
+                                    update="sampleReference"
+                                    process="@this"/>
+                        </p:autoComplete>
+
+                        <p:outputLabel value="Date sampled *" style="font-weight: bold;" />
+                        <p:calendar  id="dateSampled"
+                                     value="#{jobSampleManager.selectedJobSample.dateSampled}"
+                                     navigator="true"
+                                     pattern="MMM dd, yyyy"
+                                     required="true"
+                                     requiredMessage="Date Sampled Required"
+                                     autocomplete="off" >
+                            <p:ajax event="dateSelect"
+                                    global="false"                                                                 
+                                    listener="#{jobSampleManager.updateSample}"
+                                    update="sampleReference"
+                                    process="@this"/>
+                            <p:ajax event="change"
+                                    global="false"                                                                 
+                                    listener="#{jobSampleManager.updateSample}"
+                                    update="sampleReference"
+                                    process="@this"/>
+                        </p:calendar>
+
+                        <p:outputLabel value="Sample quantity *" style="font-weight: bold;" />
+                        <p:inputNumber  id="sampleQuantity"
+                                        disabled="#{jobManager.disableJobDialogField('samples')}"
+                                        minValue="1" 
+                                        maxValue="1000"
+                                        decimalPlaces="0"
+                                        inputStyle="text-align: right;"
+                                        required="true"
+                                        requiredMessage="Please enter a valid sample quantity that is greater than 0 and less than 1,000"
+                                        value="#{jobSampleManager.selectedJobSample.sampleQuantity}" >
+
+                            <p:ajax event="change"
+                                    global="false"
+                                    update="sampleReference"
+                                    listener="#{jobSampleManager.updateSampleQuantity}"
+                                    process="@this"/>
+
+                        </p:inputNumber>
+
+                        <p:outputLabel value="Product common name *" style="font-weight: bold;" />
+                        <p:inputText value="#{jobSampleManager.selectedJobSample.name}"
+                                     disabled="#{jobManager.disableJobDialogField('samples')}"
+                                     id="productCommonName"
+                                     required="true"
+                                     requiredMessage="Please enter the common name of the product"
+                                     validator="requiredFieldValidator"
+                                     maxlength="250" >
+
+                            <p:ajax event="change"
+                                    global="false"
+                                    listener="#{jobSampleManager.updateSample}"
+                                    update="sampleReference"
+                                    process="@this"/>
+
+                        </p:inputText>
+
+                        <p:outputLabel value="Country of Origin" />
+                        <p:autoComplete value="#{jobSampleManager.selectedJobSample.countryOfOrigin}"   
+                                        disabled="#{jobManager.disableJobDialogField('samples')}"
+                                        id="sampleCountryOfOrigin"
+                                        escape="false"
+                                        forceSelection="true"  
+                                        dropdown="true"
+                                        scrollHeight="200" 
+                                        cache="true"
+                                        completeMethod="#{systemManager.completeCountry}" >
+
+                            <p:ajax event="itemSelect"                              
+                                    listener="#{jobSampleManager.updateSample}"
+                                    global="false"
+                                    update="sampleReference"
+                                    process="@this" />      
+
+                            <p:ajax event="change"                              
+                                    listener="#{jobSampleManager.updateSample}"
+                                    update="sampleReference"
+                                    global="false"
+                                    process="@this" />                               
+                        </p:autoComplete>
+
+                        <p:outputLabel value="Brand" />
+                        <p:inputText value="#{jobSampleManager.selectedJobSample.productBrand}"
+                                     disabled="#{jobManager.disableJobDialogField('samples')}"
+                                     maxlength="250"
+                                     id="productBrand" >
+                            <p:ajax event="change"
+                                    global="false"
+                                    listener="#{jobSampleManager.updateSample}"
+                                    update="sampleReference"
+                                    process="@this"/>
+                        </p:inputText>
+
+                        <p:outputLabel value="Model" />
+                        <p:inputText value="#{jobSampleManager.selectedJobSample.productModel}"
+                                     disabled="#{jobManager.disableJobDialogField('samples')}"
+                                     maxlength="250"
+                                     id="productModel" >
+                            <p:ajax event="change"
+                                    global="false"                                    
+                                    listener="#{jobSampleManager.updateSample}"
+                                    update="sampleReference"
+                                    process="@this"/>
+                        </p:inputText>
+
+                        <p:outputLabel value="Serial No." />
+                        <p:inputText value="#{jobSampleManager.selectedJobSample.productSerialNumber}"
+                                     disabled="#{jobManager.disableJobDialogField('samples')}"
+                                     id="productSerialNumber"
+                                     maxlength="250" >
+                            <p:ajax event="change"
+                                    global="false"                                   
+                                    listener="#{jobSampleManager.updateSample}"
+                                    update="sampleReference"
+                                    process="@this"/>
+                        </p:inputText>
+
+                        <p:outputLabel value="Product code" />
+                        <p:inputText value="#{jobSampleManager.selectedJobSample.productCode}"
+                                     disabled="#{jobManager.disableJobDialogField('samples')}"
+                                     id="productCode"
+                                     maxlength="250" >
+                            <p:ajax event="change"
+                                    global="false"                                   
+                                    listener="#{jobSampleManager.updateSample}"
+                                    update="sampleReference"
+                                    process="@this"/>
+                        </p:inputText>
+
+                        <p:outputLabel value="Additional details" />
+                        <p:inputTextarea  value="#{jobSampleManager.selectedJobSample.description}"
+                                          disabled="#{jobManager.disableJobDialogField('samples')}"
+                                          id="sampleDescription"
+                                          maxlength="1000"
+                                          style="width: 65%;"
+                                          autoResize="false"
+                                          rows="2" >
+                            <p:ajax event="change"
+                                    update="sampleReference"
+                                    global="false"                                    
+                                    listener="#{jobSampleManager.updateSample}"
+                                    process="@this"/>
+                        </p:inputTextarea>
+
+                        <p:outputLabel value="Product quantity" 
+                                       for="productQuantity"
+                                       style="font-weight: bold;" />
+                        <h:panelGroup >
+                            <p:inputNumber id="productQuantity"
+                                           minValue="1" 
+                                           decimalPlaces="0"
+                                           inputStyle="text-align: right;"
+                                           required="true"
+                                           converterMessage="Please enter a valid product quantity"
+                                           requiredMessage="Please enter a valid product quantity"                                         
+                                           disabled="#{jobManager.disableJobDialogField('samples')}"
+                                           value="#{jobSampleManager.selectedJobSample.quantity}" >
+
+                                <p:ajax event="change"
+                                        global="false"
+                                        listener="#{jobSampleManager.updateSample}"   
+                                        update="sampleReference"
+                                        process="@this"/>
+
+                            </p:inputNumber>
+                            <p:spacer height="0" width="5"/>
+                            <p:inputText id="productUnitOfMeasure"
+                                         value="#{jobSampleManager.selectedJobSample.unitOfMeasure}"
+                                         disabled="#{jobManager.disableJobDialogField('samples')}"
+                                         maxlength="250"
+                                         title="Product unit of measure">
+                                <p:ajax event="change"
+                                        global="false"
+                                        listener="#{jobSampleManager.updateSample}"
+                                        update="sampleReference"
+                                        process="@this"/>
+                            </p:inputText>
+                            <p:watermark value="enter product unit" for="productUnitOfMeasure"/>
+                        </h:panelGroup>
+                        <p:outputLabel value="Method of disposal *" style="font-weight: bold;" />
+                        <p:selectOneMenu value="#{jobSampleManager.selectedJobSample.methodOfDisposal}" 
+                                         disabled="#{jobManager.disableJobDialogField('samples')}"
+                                         id="methodOfDisposal">
+
+                            <f:selectItems value="#{jobSampleManager.methodsOfDisposal}" />
+
+                            <p:ajax listener="#{jobSampleManager.updateSample}"
+                                    update="sampleReference"
+                                    global="false"
+                                    process="@this" />
+                        </p:selectOneMenu>
+                    </h:panelGrid>       
+                </p:tab>
+                <p:tab title="Tracking">
+                    <h:panelGrid columns="2">    
+                        <p:outputLabel value="Date received by responsible dept." />
+                        <p:calendar id="dateSampleReceived"
+                                    value="#{jobSampleManager.selectedJobSample.dateReceived}"                                    
+                                    navigator="true"
+                                    autocomplete="off"
+                                    pattern="MMM dd, yyyy">
+
+                            <p:ajax event="dateSelect"
+                                    global="false"                                   
+                                    listener="#{jobSampleManager.updateSample}"   
+                                    update="sampleReference"
+                                    process="@this"/>
+
+                            <p:ajax event="change"
+                                    global="false"                                   
+                                    listener="#{jobSampleManager.updateSample}"
+                                    update="sampleReference"
+                                    process="@this"/>
+
+                        </p:calendar>
+                    </h:panelGrid>
+                </p:tab>
+            </p:accordionPanel>
+            
+            <p:toolbar>
+                <p:toolbarGroup align="left">
+                    <p:commandButton value="Ok"
+                                     actionListener="#{jobSampleManager.okJobSample}"
+                                     update="job_sample_dialog_growl"                                     
+                                     icon="pi pi-check"
+                                     process="@form"/>
+                    <p:spacer height="0" width="5"/>
+                    <p:commandButton value="Cancel"
+                                     actionListener="#{jobSampleManager.cancelJobSampleDialogEdits}"                            
+                                     icon="pi pi-times"
+                                     process="@this"/>
+                </p:toolbarGroup>
+
+                <p:toolbarGroup align="right" >  
+                    <h:outputText value="* Field required." style="font-weight: bold;" />            
+                </p:toolbarGroup>
+
+            </p:toolbar>                      
+        </h:form>
+
+    </ui:define>
+</ui:composition>

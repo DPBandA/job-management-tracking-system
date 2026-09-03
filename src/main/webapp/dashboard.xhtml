@@ -55,6 +55,10 @@ Email: info@dpbennett.com.jm
                         <ui:include src="dashboard/legal/legalDocumentTab.xhtml" />
                     </h:panelGroup>
 
+                    <h:panelGroup rendered="#{t.id == 'LabelPrint'}" >
+                        <ui:include src="dashboard/lp/lpTab.xhtml" /> 
+                    </h:panelGroup>  
+
                     <h:panelGroup rendered="#{t.id == 'Job Management'}">
                         <ui:include src="dashboard/job/jobsTab.xhtml" />
                     </h:panelGroup>
