@@ -77,7 +77,7 @@ Email: info@dpbennett.com.jm
         </p:submenu>
 
         <p:submenu label="Compliance"                            
-                   rendered="#{jobManager.user.hasModule('complianceManager')}"
+                   rendered="#{complianceManager.user.hasModule('complianceManager')}"
                    icon="pi pi-check-square" >
 
             <p:submenu label="New"  
@@ -163,31 +163,177 @@ Email: info@dpbennett.com.jm
                             update=":mainTabViewForm:mainTabView,:headerForm:growl3" />
 
                 </p:menuitem>
+
             </p:submenu>
 
             <p:divider />
 
-            <p:menuitem value="Surveys"
-                        actionListener="#{complianceManager.openSurveysBrowser}"   
-                        icon="pi pi-copy"
-                        process="@this"/>                   
+            <p:submenu label="Tools"  
+                       icon="pi pi-wrench">
 
-            <p:menuitem value="Standards" 
-                        actionListener="#{complianceManager.openStandardsBrowser}"
-                        icon="pi pi-copy"
-                        process="@this"/>
+                <p:menuitem value="Surveys"
+                            actionListener="#{complianceManager.openSurveysBrowser}"   
+                            icon="pi pi-copy"
+                            process="@this"/>                   
 
-            <p:menuitem value="Complaints"  
-                        actionListener="#{complianceManager.openComplaintsBrowser}"
-                        icon="pi pi-copy"
-                        process="@this"/>
+                <p:menuitem value="Standards" 
+                            actionListener="#{complianceManager.openStandardsBrowser}"
+                            icon="pi pi-copy"
+                            process="@this"/>
 
-            <p:menuitem value="Factory Inspections"  
-                        actionListener="#{complianceManager.openFactoryInspectionBrowser}"
-                        icon="pi pi-copy"
-                        process="@this"/>
+                <p:menuitem value="Complaints"  
+                            actionListener="#{complianceManager.openComplaintsBrowser}"
+                            icon="pi pi-copy"
+                            process="@this"/>
 
-        </p:submenu>     
+                <p:menuitem value="Market Products"  
+                            actionListener="#{complianceManager.openMarketProductBrowser}"
+                            icon="pi pi-copy"
+                            process="@this"/>
+
+                <p:menuitem value="Manufacturers"  
+                            actionListener="#{complianceManager.openManufacturerBrowser}"
+                            icon="pi pi-copy"
+                            process="@this"/>
+
+                <p:menuitem value="Factory Inspections"  
+                            actionListener="#{complianceManager.openFactoryInspectionBrowser}"
+                            icon="pi pi-copy"
+                            process="@this"/>
+
+            </p:submenu>
+
+        </p:submenu>    
+
+        <p:submenu label="Food Safety"                            
+                   rendered="#{foodSafetyManager.user.hasModule('foodSafetyManager')}"
+                   icon="pi pi-shield" >
+
+            <p:submenu label="New"  
+                       icon="pi pi-plus" >
+
+                <p:menuitem
+                    value="Factory"
+                    icon="pi pi-plus" 
+                    actionListener="#{foodFactoryManager.createNewFoodFactory}"                                            
+                    process="@this"
+                    title="Add a new food factory" >
+
+                    <p:ajax event="dialogReturn" 
+                            listener="#{foodFactoryManager.doFoodFactorySearch}"
+                            update=":mainTabViewForm:mainTabView:foodFactoriesTable,:headerForm:growl3"/>
+
+                </p:menuitem>
+
+            </p:submenu>
+
+            <p:submenu label="Tools"  
+                       icon="pi pi-wrench">
+
+                <p:menuitem value="Factories"  
+                            actionListener="#{foodFactoryManager.openFactoryBrowser}"
+                            icon="pi pi-copy"
+                            process="@this"/>
+
+            </p:submenu>
+
+        </p:submenu>
+
+        <p:submenu label="Legal Metrology"                            
+                   rendered="#{legalMetrologyManager.user.hasModule('legalMetrologyManager')}"
+                   icon="pi pi-check-circle" >
+
+            <p:submenu label="New"  
+                       icon="pi pi-plus" >
+
+                <p:menuitem
+                    value="Petrol Station"
+                    icon="pi pi-plus" 
+                    actionListener="#{legalMetrologyManager.createNewPetrolStation}"                                            
+                    process="@this"
+                    title="Add a new petrol station" >
+
+                    <p:ajax event="dialogReturn" 
+                            listener="#{legalMetrologyManager.doPetrolStationSearch}"
+                            update=":mainTabViewForm:mainTabView:petrolStationsTable,:headerForm:growl3"/>
+
+                </p:menuitem>
+
+                <p:menuitem
+                    value="Scale"
+                    icon="pi pi-plus" 
+                    actionListener="#{legalMetrologyManager.createNewScale}"                                            
+                    process="@this"
+                    title="Add a new scale" >
+
+                    <p:ajax event="dialogReturn" 
+                            listener="#{legalMetrologyManager.doScaleSearch}"
+                            update=":mainTabViewForm:mainTabView:scalesTable,:headerForm:growl3"/>
+
+                </p:menuitem>
+
+            </p:submenu>
+
+            <p:submenu label="Tools"  
+                       icon="pi pi-wrench">
+
+                <p:menuitem value="Petrol Stations"  
+                            actionListener="#{legalMetrologyManager.openPetrolStationBrowser}"
+                            icon="pi pi-copy"
+                            process="@this"/>
+
+                <p:menuitem value="Scales"  
+                            actionListener="#{legalMetrologyManager.openScaleBrowser}"
+                            icon="pi pi-copy"
+                            process="@this"/>
+
+            </p:submenu>
+
+        </p:submenu>
+
+        <p:submenu label="LabelPrint"                            
+                   rendered="#{systemManager.user.hasModule('energyLabelManager')}"
+                   icon="pi pi-images" >
+
+            <p:menuitem value="New"
+                        title="Create new label"
+                        icon="pi pi-plus"
+                        actionListener="#{energyLabelManager.createNewEnergyLabel}" 
+                        process="@this" >
+
+                <p:ajax event="dialogReturn" 
+                        update=":mainTabViewForm:mainTabView"
+                        listener="#{energyLabelManager.energyLabelDialogReturn}" />
+
+            </p:menuitem>  
+
+            <p:menuitem value="Labels"
+                        title="Open the Energy Label Browser" 
+                        icon="pi pi-images"
+                        actionListener="#{energyLabelManager.openEnergyLabelBrowser}" 
+                        process="@this" />   
+
+            <p:divider />
+
+            <p:menuitem 
+                actionListener="#{energyLabelManager.openEnergyEfficiencySettingsTab}" 
+                title="Show energy efficiency settings" 
+                value="Energy Efficiency Settings" 
+                icon="pi pi-cog" />
+
+            <p:menuitem 
+                actionListener="#{energyLabelManager.openLabelPrintSettingsTab}" 
+                title="Show LabelPrint settings" 
+                value="LabelPrint Settings" 
+                icon="pi pi-cog" />            
+          
+            <p:menuitem 
+                actionListener="#{energyLabelManager.openComplianceSettingsTab}" 
+                title="Show compliance settings" 
+                value="Compliance Settings" 
+                icon="pi pi-cog" />
+
+        </p:submenu>
 
         <p:submenu label="Legal" 
                    rendered="#{legalDocumentManager.user.hasModule('legalDocumentManager')}"
@@ -512,6 +658,7 @@ Email: info@dpbennett.com.jm
                 title="System Information"                 
                 value="System Information" 
                 icon="pi pi-info-circle" />
+
 
         </p:submenu>
 
