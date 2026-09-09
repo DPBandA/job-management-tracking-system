@@ -61,10 +61,10 @@ Email: info@dpbennett.com.jm
             </p:toolbar>            
 
             <p:tabView id="jobSampleDialogTabView"
-                              activeIndex="#{jobSampleManager.jobSampleDialogTabViewActiveIndex}"
-                              style="margin-top: 1px;margin-bottom: 1px;"
-                              dynamic="false"
-                              widgetVar="jobSampleDialogTabViewVar">
+                       activeIndex="#{jobSampleManager.jobSampleDialogTabViewActiveIndex}"
+                       style="margin-top: 1px;margin-bottom: 1px;"
+                       dynamic="false"
+                       widgetVar="jobSampleDialogTabViewVar">
 
                 <p:tab title="General" >
                     <h:panelGrid columns="2" style="width: 100%" >
@@ -151,9 +151,72 @@ Email: info@dpbennett.com.jm
 
                         </p:inputNumber>
 
-                        <p:outputLabel value="Product common name *" style="font-weight: bold;" />
+                        <h:outputText value="Product common name *" 
+                                      style="font-weight: bold;" /> 
+                        <h:panelGroup>
+                            <p:autoComplete id="marketProduct"
+                                            escape="false"
+                                            var="marketProduct"   
+                                            value="#{jobSampleManager.selectedJobSample.marketProduct}"
+                                            title="#{jobSampleManager.selectedJobSample.marketProduct}"
+                                            itemLabel="#{marketProduct.name}"
+                                            itemValue="#{marketProduct}"    
+                                            required="true"
+                                            requiredMessage="Product Required"
+                                            validator="businessEntityValidator"
+                                            forceSelection="true"
+                                            dropdown="true"
+                                            scrollHeight="200"     
+                                            completeMethod="#{financeManager.completeActiveMarketProduct}" >
+
+                                <f:converter converterId="marketProductConverter"/>
+
+                                <f:attribute name="em" value="#{financeManager.entityManager1}"/>
+
+                                <p:ajax event="itemSelect"
+                                        listener="#{jobSampleManager.updateSample}"
+                                        update="sampleReference,productCommonName"
+                                        process="@this"/>
+
+                            </p:autoComplete>                                
+                            <p:spacer height="0" width="4"/>
+                            <p:menuButton icon="pi pi-pencil" 
+                                          id="sampleProductMenuButton"
+                                          title="Add or edit product">
+
+                                <p:menuitem value="Edit product"
+                                            icon="pi pi-pencil" 
+                                            disabled="${!jobSampleManager.isMarketProductNameValid}"                                 
+                                            actionListener="#{jobSampleManager.editMarketProduct}"  
+                                            process="@this"                             
+                                            title="View or edit this product's detail">  
+
+                                    <p:ajax event="dialogReturn" 
+                                            update="marketProduct,productCommonName,sampleProductMenuButton" />
+
+                                </p:menuitem>
+
+                                <p:menuitem 
+                                    icon="pi pi-plus" 
+                                    actionListener="#{jobSampleManager.createNewMarketProduct}"                                            
+                                    process="@this"
+                                    value="Add a new product"
+                                    title="Add a new product to the market products database" >
+
+                                    <p:ajax event="dialogReturn" 
+                                            update="marketProduct,productCommonName,sampleProductMenuButton" />
+
+                                </p:menuitem>
+
+                            </p:menuButton>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="Product common name *" 
+                                       rendered="false"
+                                       style="font-weight: bold;" />
                         <p:inputText value="#{jobSampleManager.selectedJobSample.name}"
                                      disabled="#{jobManager.disableJobDialogField('samples')}"
+                                     rendered="false"
                                      id="productCommonName"
                                      required="true"
                                      requiredMessage="Please enter the common name of the product"
@@ -329,7 +392,7 @@ Email: info@dpbennett.com.jm
                     </h:panelGrid>
                 </p:tab>
             </p:tabView>
-            
+
             <p:toolbar>
                 <p:toolbarGroup align="left">
                     <p:commandButton value="Ok"
