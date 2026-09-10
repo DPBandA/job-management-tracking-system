@@ -192,6 +192,7 @@ Email: info@dpbennett.com.jm
                                             title="View or edit this product's detail">  
 
                                     <p:ajax event="dialogReturn" 
+                                            listener="#{jobSampleManager.marketProductDialogReturn}"
                                             update="marketProduct,productCommonName,sampleProductMenuButton" />
 
                                 </p:menuitem>
@@ -204,6 +205,7 @@ Email: info@dpbennett.com.jm
                                     title="Add a new product to the market products database" >
 
                                     <p:ajax event="dialogReturn" 
+                                            listener="#{jobSampleManager.marketProductDialogReturn}"
                                             update="marketProduct,productCommonName,sampleProductMenuButton" />
 
                                 </p:menuitem>
