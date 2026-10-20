@@ -45,16 +45,16 @@ Email: info@dpbennett.com.jm
                 <h:panelGrid columns="1" cellspacing="0" >   
 
                     <p:outputLabel value="#{jobManager.applicationHeader}"
-                                   class="header-text" />
+                                   styleClass="header-text hidden md:block" />
 
                     <p:outputLabel value="#{jobManager.applicationSubheader}"
-                                   class="subheader-text" />  
+                                   styleClass="subheader-text hidden md:block" />
 
                 </h:panelGrid>
             </div>    
             <div class="col-12 md:col-4">
                 <p:outputPanel style="text-align: center;">
-                    <h:outputText value="#{jobManager.lastSystemNotificationContent}"  
+                    <h:outputText value="#{jobManager.lastSystemNotificationContent}" 
                                   escape="false" />
                 </p:outputPanel>                          
             </div>  
@@ -119,7 +119,7 @@ Email: info@dpbennett.com.jm
             </div>
         </div>
     </div>     
-    <p:outputPanel styleClass="col-12 col-nogutter" 
+    <p:outputPanel styleClass="col-12 col-nogutter hidden md:block" 
                    rendered="#{!jobManager.user.renderMobileUI}">
         <ui:include src="menubar.xhtml" />
     </p:outputPanel>

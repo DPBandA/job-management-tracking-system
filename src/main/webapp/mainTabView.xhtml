@@ -34,7 +34,7 @@ Email: info@dpbennett.com.jm
             <div class="grid">
                 <div class="col-12">
 
-                    <p:tabView id="mainTabView"  
+                    <p:accordionPanel id="mainTabView"  
                                rendered="#{systemManager.mainTabView.render}"
                                value="#{systemManager.mainTabView.tabs}" 
                                activeIndex="#{systemManager.mainTabView.tabIndex}"
@@ -42,18 +42,13 @@ Email: info@dpbennett.com.jm
                                dynamic="false"                                                   
                                widgetVar="mainTabViewVar">
 
-                        <p:ajax event="tabClose" 
-                                immediate="true"
-                                process="@this"
-                                listener="#{systemManager.onMainViewTabClose}" />  
-
                         <p:ajax event="tabChange" 
                                 process="@form"      
                                 update=":dashboardForm,:mainTabViewForm"
                                 listener="#{jobManager.onMainViewTabChange}" />  
 
 
-                        <p:tab title="#{t.name}" closable="true"  >
+                        <p:tab title="#{t.name}" closable="false"  >
 
                             <p:defaultCommand target="#{systemManager.defaultCommandTarget}" />
 
@@ -151,7 +146,7 @@ Email: info@dpbennett.com.jm
 
                         </p:tab>
 
-                    </p:tabView> 
+                    </p:accordionPanel> 
 
                 </div> 
 

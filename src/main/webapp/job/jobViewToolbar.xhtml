@@ -42,13 +42,16 @@ Email: info@dpbennett.com.jm
                         listener="#{jobManager.jobDialogReturn}" />
 
             </p:commandButton>  
+            
             <p:spacer height="0" width="30"/>
+            
             <p:commandButton value="Approve"  
                              rendered="#{jobManager.user.isJobCostingsPreferredJobTableView}"                             
                              title="Approve the selected job costing(s)"
                              actionListener="#{jobFinanceManager.approveSelectedJobCostings}"
                              update=":headerForm:growl3,jobCostingsTable" >                                                                                    
             </p:commandButton>
+            
             <p:spacer  rendered="#{jobManager.user.isJobCostingsPreferredJobTableView}" height="0" width="10"/>
 
             <p:menuButton value="Invoicing | Costing"   
