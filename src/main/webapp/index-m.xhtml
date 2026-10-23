@@ -28,7 +28,7 @@ Email: info@dpbennett.com.jm
     xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <f:metadata>
-        <f:viewAction action="#{jobManager.reInitUI}" onPostback="false"/>        
+        <f:viewAction action="#{jobManager.reInitUI}" onPostback="false"/>     
     </f:metadata>
 
     <ui:define name="head">        
@@ -42,7 +42,7 @@ Email: info@dpbennett.com.jm
     </ui:define>
 
     <ui:define name="header">
-        <ui:include src="header.xhtml"/>
+        <ui:include src="header-m.xhtml"/>
     </ui:define>
 
     <ui:define name="upper-divider">
@@ -62,7 +62,7 @@ Email: info@dpbennett.com.jm
                 <p:outputPanel
                     styleClass="w-full md:w-9">
 
-                    <ui:include src="mainTabView.xhtml"/>
+                    <ui:include src="mainTabView-m.xhtml"/>
 
                 </p:outputPanel>
 
@@ -82,7 +82,7 @@ Email: info@dpbennett.com.jm
     </ui:define>
 
     <ui:define name="footer">
-        Redirect work!
+        <ui:include src="footer.xhtml"/>
     </ui:define>
 
 </ui:composition>
