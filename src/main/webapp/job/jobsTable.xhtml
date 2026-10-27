@@ -144,7 +144,7 @@ Email: info@dpbennett.com.jm
         <p:column>
             <p:commandButton   
                 title="Edit or view" 
-                actionListener="#{jobManager.editJob}"
+                actionListener="#{jobManager.editJob('jobDialog')}"
                 global="true"
                 process="@this"
                 icon="pi pi-pencil" >
@@ -168,7 +168,7 @@ Email: info@dpbennett.com.jm
 
                     <p:menuitem   
                             value="Edit or view" 
-                            actionListener="#{jobManager.editJob}" 
+                            actionListener="#{jobManager.editJob('jobDialog')}" 
                             global="true"
                             process="@this"
                             icon="pi pi-pencil" >
