@@ -48,12 +48,12 @@ Email: info@dpbennett.com.jm
                                 listener="#{jobManager.onMainViewTabChange}" />  
 
 
-                        <p:tab title="#{t.name}" closable="false"  >
+                        <p:tab title="#{t.name}" >
 
                             <p:defaultCommand target="#{systemManager.defaultCommandTarget}" />
 
                             <h:panelGroup rendered="#{t.id == 'Jobs'}">                                
-                                <ui:include src="job/jobBrowser.xhtml" /> 
+                                <ui:include src="job/jobBrowser-m.xhtml" /> 
                             </h:panelGroup>
 
                             <h:panelGroup rendered="#{t.id == 'Clients'}" >

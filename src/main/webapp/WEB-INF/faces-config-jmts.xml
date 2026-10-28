@@ -78,8 +78,15 @@
     <navigation-rule>
         <from-view-id>/index.xhtml</from-view-id>
         <navigation-case>
-            <from-outcome>jobSamplesDialog</from-outcome>
-            <to-view-id>/job/sample/jobSamplesDialog.xhtml</to-view-id>
+            <from-outcome>jobSampleDialog</from-outcome>
+            <to-view-id>/job/sample/jobSampleDialog.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/index-m.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>jobSampleDialog-m</from-outcome>
+            <to-view-id>/job/sample/jobSampleDialog-m.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
     <navigation-rule>
@@ -88,14 +95,7 @@
             <from-outcome>statusNoteDialog</from-outcome>
             <to-view-id>/job/tracking/statusNoteDialog.xhtml</to-view-id>
         </navigation-case>
-    </navigation-rule>    
-    <navigation-rule>
-        <from-view-id>/index.xhtml</from-view-id>
-        <navigation-case>
-            <from-outcome>jobSampleDialog</from-outcome>
-            <to-view-id>/job/sample/jobSampleDialog.xhtml</to-view-id>
-        </navigation-case>
-    </navigation-rule>      
+    </navigation-rule>  
     <navigation-rule>
         <from-view-id>/index.xhtml</from-view-id>
         <navigation-case>

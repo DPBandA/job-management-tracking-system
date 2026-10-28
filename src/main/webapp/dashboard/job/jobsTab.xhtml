@@ -60,14 +60,14 @@ Email: info@dpbennett.com.jm
                             update=":mainTabViewForm:mainTabView:clientsTable" />
 
                 </p:menuitem>
-                
+
                 <p:separator rendered="#{jobManager.user.can('AddProformaInvoice')}"/>
-                
+
                 <p:menuitem value="Proforma Invoice"
                             title="Create new proforma invoice"
                             icon="pi pi-plus"
                             rendered="#{jobManager.user.can('AddProformaInvoice')}"
-                            actionListener="#{jobFinanceManager.createNewProformaInvoice}" 
+                            actionListener="#{jobFinanceManager.createNewProformaInvoice('jobDialog')}" 
                             process="@this" >
 
                     <p:ajax event="dialogReturn" 
@@ -104,20 +104,6 @@ Email: info@dpbennett.com.jm
                             title="Browse proforma invoices"
                             rendered="#{jobManager.user.can('AddProformaInvoice')}"
                             actionListener="#{jobFinanceManager.openProformaInvoicesTab}" 
-                            process="@this" />
-
-                <p:separator />
-
-                <p:menuitem value="Client Management"
-                            title="Open the Clients tab"
-                            rendered="#{jobManager.user.hasModule('clientManager')}"
-                            actionListener="#{jobManager.openClientsTab}" 
-                            process="@this" />
-
-                <p:menuitem value="Price List"
-                            title="Browse price list"
-                            rendered="false"
-                            actionListener="#{jobFinanceManager.openPriceListTab}" 
                             process="@this" />
 
             </p:menuButton>         
