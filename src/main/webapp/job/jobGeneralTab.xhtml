@@ -76,8 +76,10 @@ Email: info@dpbennett.com.jm
 
         <p:outputLabel value="Organization"
                        for="organization"
+                       rendered="#{jobManager.showOrganization()}"
                        style="font-weight: bold"/>       
         <p:autoComplete id="organization"
+                        rendered="#{jobManager.showOrganization()}"
                         escape="false"
                         dropdown="true" 
                         var="organization"
