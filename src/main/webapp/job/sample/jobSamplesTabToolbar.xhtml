@@ -31,7 +31,7 @@ Email: info@dpbennett.com.jm
         <p:toolbarGroup align="left">
             <p:commandButton value="New"
                              title="Add new sample(s)"
-                             actionListener="#{jobSampleManager.createNewJobSample}"     
+                             actionListener="#{jobSampleManager.createNewJobSample('jobSampleDialog')}"     
                              disabled="#{jobManager.disableJobDialogField('samples')}"
                              icon="pi pi-plus"
                              process="@this" >

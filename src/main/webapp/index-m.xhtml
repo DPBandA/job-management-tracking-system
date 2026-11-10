@@ -18,7 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 Email: info@dpbennett.com.jm
 -->
 <ui:composition
-    template="/jmts-ui/templates/bootstrap-layout.xhtml"
+    template="/jmts-ui/templates/jmts-base.xhtml"
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:p="http://primefaces.org/ui"
     xmlns:h="http://xmlns.jcp.org/jsf/html"
@@ -28,7 +28,7 @@ Email: info@dpbennett.com.jm
     xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <f:metadata>
-        <f:viewAction action="#{jobManager.reInitUI}" onPostback="false"/>
+        <f:viewAction action="#{jobManager.reInitUI}" onPostback="false"/>     
     </f:metadata>
 
     <ui:define name="head">        
@@ -41,10 +41,48 @@ Email: info@dpbennett.com.jm
         <ui:include src="loginDialog.xhtml"/>
     </ui:define>
 
-    <ui:define name="content">    
-        <p:scrollTop/>
-        <ui:include src="content.xhtml"/>
+    <ui:define name="header">
+        <ui:include src="header-m.xhtml"/>
     </ui:define>
 
+    <ui:define name="upper-divider">
+        <p:divider rendered="#{jobManager.userLoggedIn}" />
+    </ui:define>
+
+    <ui:define name="main-content">
+
+        <p:scrollPanel mode="native">
+
+            <main class="flex flex-column md:flex-row flex-auto">
+
+                <p:outputPanel styleClass="w-full md:w-3 flex-shrink-0" >                    
+                    <ui:include src="dashboard-m.xhtml"/>                    
+                </p:outputPanel>
+
+                <p:outputPanel
+                    styleClass="w-full md:w-9">
+
+                    <ui:include src="mainTabView-m.xhtml"/>
+
+                </p:outputPanel>
+
+            </main>
+
+            <p:scrollTop target="parent"
+                         threshold="100"
+                         styleClass="custom-scrolltop"
+                         icon="pi pi-arrow-up"/>
+
+        </p:scrollPanel>
+
+    </ui:define>
+
+    <ui:define name="lower-divider">
+        <p:divider rendered="#{jobManager.userLoggedIn}" />
+    </ui:define>
+
+    <ui:define name="footer">
+        <ui:include src="footer.xhtml"/>
+    </ui:define>
 
 </ui:composition>

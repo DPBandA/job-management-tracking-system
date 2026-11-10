@@ -42,11 +42,6 @@ Email: info@dpbennett.com.jm
                                dynamic="false"                                                   
                                widgetVar="mainTabViewVar">
 
-                        <p:ajax event="tabClose" 
-                                immediate="true"
-                                process="@this"
-                                listener="#{systemManager.onMainViewTabClose}" />  
-
                         <p:ajax event="tabChange" 
                                 process="@form"      
                                 update=":dashboardForm,:mainTabViewForm"

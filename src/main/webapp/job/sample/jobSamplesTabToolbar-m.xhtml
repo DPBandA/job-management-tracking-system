@@ -25,27 +25,24 @@ Email: info@dpbennett.com.jm
     xmlns:f="http://xmlns.jcp.org/jsf/core"
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets"   
     xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">   
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"> 
 
-    <p:toolbar id="jobCostingAndPaymentToolbar">
-        <p:toolbarGroup align="left" >  
-            <p:commandButton value="Save"
-                             actionListener="#{jobFinanceManager.saveCostEstimate}"
-                             icon="pi pi-save"
-                             update="jobCosting_growl"
-                             process="@form"/>
-            <p:spacer width="10"/>
-            <p:commandButton value="Close"
-                             immediate="true"
-                             actionListener="#{jobFinanceManager.cancelJobCostingAndPaymentEdit}"                         
-                             icon="pi pi-times"
-                             process="@this"/>           
+    <p:toolbar>
+        <p:toolbarGroup align="left">
+            <p:commandButton value="New"
+                             title="Add new sample(s)"
+                             actionListener="#{jobSampleManager.createNewJobSample('jobSampleDialog-m')}"     
+                             disabled="#{jobManager.disableJobDialogField('samples')}"
+                             icon="pi pi-plus"
+                             process="@this" >
 
-        </p:toolbarGroup>     
+                <p:ajax event="dialogReturn" 
+                        listener="#{jobSampleManager.jobSampleDialogReturn}"                    
+                        update=":jobDialogForm:jobDetailToolbar1,:jobDialogForm:growl2,:jobDialogForm:jobFormTabView:jobSamplesTable"
+                        process="@this"/>
 
-        <p:toolbarGroup align="right" >  
-            <h:outputText value="* Field required." style="font-weight: bold;" />            
+            </p:commandButton>                
         </p:toolbarGroup>
-    </p:toolbar>            
+    </p:toolbar>
 
 </html>
