@@ -6,7 +6,8 @@
     <context-param>
         <param-name>javax.faces.CONFIG_FILES</param-name>
         <param-value>
-            /WEB-INF/faces-config-sm.xml,             
+            /WEB-INF/faces-config-sm.xml,    
+            /WEB-INF/faces-config-dm.xml,   
             /WEB-INF/faces-config-hrm.xml,
             /WEB-INF/faces-config-cm.xml,
             /WEB-INF/faces-config-fm.xml,

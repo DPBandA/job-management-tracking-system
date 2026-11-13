@@ -35,12 +35,12 @@ Email: info@dpbennett.com.jm
                 <div class="col-12">
 
                     <p:accordionPanel id="mainTabView"  
-                               rendered="#{systemManager.mainTabView.render}"
-                               value="#{systemManager.mainTabView.tabs}" 
-                               activeIndex="#{systemManager.mainTabView.tabIndex}"
-                               var="t" 
-                               dynamic="false"                                                   
-                               widgetVar="mainTabViewVar">
+                                      rendered="#{systemManager.mainTabView.render}"
+                                      value="#{systemManager.mainTabView.tabs}" 
+                                      activeIndex="#{systemManager.mainTabView.tabIndex}"
+                                      var="t" 
+                                      dynamic="false"                                                   
+                                      widgetVar="mainTabViewVar">
 
                         <p:ajax event="tabChange" 
                                 process="@form"      
@@ -70,7 +70,11 @@ Email: info@dpbennett.com.jm
 
                             <h:panelGroup rendered="#{t.id == 'System Administration'}" >
                                 <ui:include src="admin/generalAdminTab.xhtml" /> 
-                            </h:panelGroup>                                               
+                            </h:panelGroup>    
+
+                            <h:panelGroup rendered="#{t.id == 'Documents'}" >
+                                <ui:include src="doc/documentsTab-m.xhtml" /> 
+                            </h:panelGroup>  
 
                             <h:panelGroup rendered="#{t.id == 'Proforma Invoices'}">                                
                                 <ui:include src="job/finance/proformaInvoicesTab.xhtml" /> 
