@@ -2,7 +2,6 @@
 const CACHE_NAME = "jmts-static-v2";
 
 const STATIC_ASSETS = [
-    "/jmts/css/jmts.css",
     "/jmts/js/app.js",
     "/jmts/icons/icon-192x192-A.png",
     "/jmts/icons/icon-512x512-A.png"
