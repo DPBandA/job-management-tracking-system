@@ -19,3 +19,11 @@ self.addEventListener("fetch", (e) => {
     })
             );
 });
+
+self.addEventListener("activate", (event) => {
+    event.waitUntil(
+            (async () => {
+                await self.clients.claim();
+            })()
+            );
+});
