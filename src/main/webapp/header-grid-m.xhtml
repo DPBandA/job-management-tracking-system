@@ -45,10 +45,10 @@ Email: info@dpbennett.com.jm
                 <h:panelGrid columns="1" cellspacing="0" >   
 
                     <p:outputLabel value="#{jobManager.applicationHeader}"
-                                   styleClass="header-text hidden md:block" />
+                                   styleClass="header-text" />
 
                     <p:outputLabel value="#{jobManager.applicationSubheader}"
-                                   styleClass="subheader-text hidden md:block" />
+                                   styleClass="subheader-text" />
 
                 </h:panelGrid>
             </div>    
@@ -103,7 +103,7 @@ Email: info@dpbennett.com.jm
                                      ajax="false"
                                      process="@this" />
 
-                    <p:commandButton actionListener="#{systemManager.editUserProfile}"   
+                    <p:commandButton actionListener="#{systemManager.editUserProfile('userProfileDialog-m')}"   
                                      title="View or edit user profile" 
                                      icon="pi pi-user"
                                      style="margin-right: 10px;"

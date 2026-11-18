@@ -70,7 +70,11 @@ Email: info@dpbennett.com.jm
 
                             <h:panelGroup rendered="#{t.id == 'System Administration'}" >
                                 <ui:include src="admin/generalAdminTab.xhtml" /> 
-                            </h:panelGroup>                                               
+                            </h:panelGroup>    
+                            
+                            <h:panelGroup rendered="#{t.id == 'Documents'}" >
+                                <ui:include src="doc/documentsTab.xhtml" /> 
+                            </h:panelGroup>  
 
                             <h:panelGroup rendered="#{t.id == 'Proforma Invoices'}">                                
                                 <ui:include src="job/finance/proformaInvoicesTab.xhtml" /> 
